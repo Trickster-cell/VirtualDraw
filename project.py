@@ -2,9 +2,11 @@ import cv2
 import numpy as np
 
 cap = cv2.VideoCapture(2)
+# capturing real time image from the camera
 cap.set(3, 1440)
 cap.set(4, 960)
 cap.set(10, 150)
+# resizing the application window 
 
 Colors = [
     [91, 95, 103, 179, 222, 255],  # blue
@@ -12,6 +14,7 @@ Colors = [
      [149, 50, 140, 179, 255, 255],  # pink
     [0, 67, 141, 30, 255, 253],  # orange
 ]
+# HSV values of preset colors in the application
 
 color_values = [[204, 102, 0], [0, 255, 0], [255, 0, 255], [0, 165, 255]]  # , [0, 0, 0]]
 
@@ -19,6 +22,7 @@ points = []  # [x, y, colorID]
 
 
 def getContours(img):
+#     finding contours for the tracer
     contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     x, y, w, h = 0, 0, 0, 0
     for cnt in contours:
@@ -33,6 +37,7 @@ def getContours(img):
 
 
 def findColor(img, Colors, colorvals):
+#     finding specific colors
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     count = 0
     newpoints = []
@@ -50,9 +55,9 @@ def findColor(img, Colors, colorvals):
 
 
 def drawOnCanvas(points, colorvals):
+#     drawing on the application canvas
     for point in points:
         cv2.circle(imgResult, (point[0], point[1]), 10, colorvals[point[2]], cv2.FILLED)
-
 
 while True:
     success, img = cap.read()
